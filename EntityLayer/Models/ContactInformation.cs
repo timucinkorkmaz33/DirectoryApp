@@ -16,5 +16,6 @@ namespace EntityLayer.Models
         public string Phone { get; set; }
         public string Location { get; set; }
         public string Information { get; set; }
+        public User User { get; set; }
     }
 }
