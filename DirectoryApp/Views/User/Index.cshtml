@@ -1,0 +1,132 @@
+﻿@using EntityLayer.Models
+@model List<User>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Kullanıcı Listesi</h5>
+                <a type="button" class="btn btn-sm btn-success" href="@Url.Action("create","user")">Yeni Kullanıcı Ekle</a>
+              
+               
+                <table class="datatables-demo table table-striped table-bordered " id="userList">
+                    <thead>
+                        <tr>
+                          
+                            <th scope="col">Adı</th>
+                            <th scope="col">Soyadı</th>
+                            <th scope="col">Firma</th>
+                            <th scope="col">İşlemler</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                   
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+   
+
+     $('document').ready(function () {
+        $(function () {
+            $('.datatables-demo').dataTable();
+        });
+        FillUserData();
+     
+      
+    });
+    function sil(id) {
+        if (confirm("Kategoriyi silmek İstiyor musun?") == true) {
+            $.ajax({
+                url: "/User/Delete/" + id,
+                type: 'get',
+                contentType: 'application/json',
+
+                //button.event = false;
+                success: function (response) {
+                    if (response.messageStatus != 0) {
+
+                      alert("İlgili Kayıt Silindi");
+                        FillUserData();
+                    }
+                    else {
+                        alert( "İşlem Başarısız");
+                    }
+
+
+                },
+                error: function (errMsg) {
+
+                    //ShowToastMessage(errMsg, "İşlem hatalı", "error");
+                    return false;
+                }
+            });
+
+        }
+    }
+    function FillUserData() {
+
+        $.ajax({
+            url: '/User/Datagetir',
+            data: {},
+            success: function (result) {
+                console.log(result);
+                CreateUserDataTable(result);
+            }
+        });
+    }
+    function CreateUserDataTable(list) {
+        //var loading = $mainjs.$ui.$wait($("#DepartmentBranchList"));
+        var table = $('#userList').DataTable();
+        table.destroy();
+        table = $('#userList').DataTable({
+            dom: 'Bfrtip',
+            "data": list,
+            "columns": [
+               
+                { "data": "name" },
+                { "data": "surname" },
+                { "data": "company" },
+              
+                {
+                    "style": 'min-width: 20px;',
+                    "render": function (data, type, row) {
+                        /* var newcont = '<a class="btn btn-success btn-sm addcontract" title="sözleşme ekle" data-toggle="tooltip" data-kod="' + row.kod + '"><i class="fa fa-plus" ></i></a>';*/
+                        var update = '<a type="button" class="btn btn-sm btn-primary" href="/User/Edit/'+row.id+'">Güncelle</a>';
+                        var dlte = '  <a type="button" class="btn btn-sm btn-danger" style="color:white;" onclick="sil('+row.id+');">Sil</a>';
+                        return update + ' ' + dlte;
+                    }
+                },
+            ],
+            "paging": true,
+            "scrollY": 400,
+            "scrollX": true,
+            "bLengthChange": false,
+            //"language": {
+            //    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Turkish.json"
+            //},
+            dom: '<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom" lp>',
+        });
+
+    }
+    
+
+   
+
+</script>

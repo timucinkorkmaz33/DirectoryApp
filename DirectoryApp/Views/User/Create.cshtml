@@ -1,0 +1,100 @@
+﻿@using EntityLayer.Models
+@model User
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-lg-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Kullanıcı Ekleme</h5>
+                <form class="row g-3 needs-validation" novalidate>
+
+                    <div class="col-md-12 row mb-3">
+                        <div class="col-md-6 row mb-3">
+                            <label for="inputText" class="col-sm-3 col-form-label">Adı</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="Name" name="Name">
+                            </div>
+                        </div>
+                        <div class="col-md-6 row mb-3">
+                            <label for="inputText" class="col-sm-3 col-form-label">Soyad</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="Surname" name="Surname">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class=" col-md-12  row mb-3">
+                        <div class="col-md-6 row mb-3">
+                            <label for="inputText" class="col-sm-3 col-form-label">Firma</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="Company" name="Company">
+                            </div>
+                        </div>
+                       
+                    </div>
+                    
+
+
+                    <br />
+                    <br />
+                    <div style="text-align: right !important; margin-right:15px;">
+                        <a type="submit" class="btn btn-sm btn-primary" style="color:white;" id="addUser">Kaydet</a>
+
+                    </div>
+                    <!-- End Multi Columns Form -->
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+
+    $('#addUser').on('click', function () {
+
+        var model = {};
+        model = {
+            Name: $("#Name").val(),
+            Surname: $("#Surname").val(),
+            Company: $("#Company").val(),
+          
+        }
+
+        $.ajax({
+            url: "/user/create",
+            type: 'post',
+            data: { user: model },
+
+            //button.event = false;
+            success: function (response) {
+                if (response == 1) {
+
+                    alert( "Kullanıcı ekleme işlemi başarılı.");
+                    setTimeout(yonlendir, 3000);
+                }
+                else {
+                    alert("Kullanıcı ekleme işleminde hata!");
+                }
+
+
+            },
+            error: function (errMsg) {
+
+                //ShowToastMessage(errMsg, "İşlem hatalı", "error");
+                return false;
+            }
+        });
+
+    });
+    function yonlendir() {
+        window.location.href = "/user/index";
+    }
+</script>
