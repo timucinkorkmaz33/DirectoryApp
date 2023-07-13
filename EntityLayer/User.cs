@@ -12,6 +12,9 @@ namespace EntityLayer
         public string Name { get; set; }        
         public string Surname { get; set; }
         public string Company { get; set; }
+        public bool IsActive { get; set; }//user listesinden birini silmek cok dogru bir işlem değil
+                                          //bunun yerine aktif durum 0 yapılması daha dogru bir işlem 
+
      
     }
 }
