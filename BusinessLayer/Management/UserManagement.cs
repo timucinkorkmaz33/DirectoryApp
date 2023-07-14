@@ -25,7 +25,7 @@ namespace BusinessLayer.Management
 
             if (user.Name != "" && user.Surname != "" && user.Company != "")
             {
-                user.IsActive = true;
+             
                 _userDal.Add(user);
             }
             else
@@ -36,17 +36,9 @@ namespace BusinessLayer.Management
 
         public void DeleteUser(User user)
         {
-            if (user.Id>0)
-            {
-                //Normal işlemde silinebilir fakat ben isactive durumunu 0 yapacam
-                //efUser.Delete(user);
-                user.IsActive = false;
-                _userDal.Update(user);
-            }
-            else
-            {
-                //Hata Döndür
-            }
+         
+                _userDal.Delete(user);
+            
         }
 
         public List<User> GetAllUsers()
@@ -61,15 +53,9 @@ namespace BusinessLayer.Management
 
         public void UpdateUser(User user)
         {
-            if (user.Id >0)
-            {
-
+          
                 _userDal.Update(user);
-            }
-            else
-            {
-                //Hata Döndür
-            }
+      
         }
     }
 }

@@ -1,29 +1,29 @@
-﻿@using EntityLayer.Models
-@model List<User>
+﻿
+@model List<UserInformationViewModel>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
 <div class="row">
     <div class="col-lg-12">
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Kullanıcı Listesi</h5>
-                <a type="button" class="btn btn-sm btn-success" href="@Url.Action("create","user")">Yeni Kullanıcı Ekle</a>
+                <h5 class="card-title">Kullanıcı İletişim Listesi</h5>
+                <a type="button" class="btn btn-sm btn-success" href="@Url.Action("create","usercontact")">Yeni Kullanıcı İletişim Bilgisi Ekle</a>
               
                
-                <table class="datatables-demo table table-striped table-bordered " id="userList">
+                <table class="datatables-demo table table-striped table-bordered " id="userContactList">
                     <thead>
                         <tr>
                           
-                            <th scope="col">Adı</th>
-                            <th scope="col">Soyadı</th>
-                            <th scope="col">Firma</th>
+                            <th scope="col">Kullanıcı Adı</th>
+                            <th scope="col">E-Mail Adresi</th>
+                            <th scope="col">Telefon No</th>
+                            <th scope="col">Lokasyon</th>
+                            <th scope="col">Bilgi</th>
                             <th scope="col">İşlemler</th>
 
                         </tr>
@@ -47,23 +47,22 @@
         $(function () {
             $('.datatables-demo').dataTable();
         });
-        FillUserData();
-     
-      
+        FillUserContactData();
     });
+
     function sil(id) {
-        if (confirm("Kullanıcı silmek İstiyor musun?") == true) {
+        if (confirm("Kullanıcı İletişim Bilgilerini silmek İstiyor musun?") == true) {
             $.ajax({
-                url: "/User/Delete/" + id,
+                url: "/UserContact/Delete/" + id,
                 type: 'get',
                 contentType: 'application/json',
 
-                
+          
                 success: function (response) {
                     if (response.messageStatus != 0) {
 
                       alert("İlgili Kayıt Silindi");
-                        FillUserData();
+                        FillUserContactData();
                     }
                     else {
                         alert( "İşlem Başarısız");
@@ -73,40 +72,42 @@
                 },
                 error: function (errMsg) {
 
-                 
+               
                     return false;
                 }
             });
 
         }
     }
-    function FillUserData() {
+    function FillUserContactData() {
 
         $.ajax({
-            url: '/User/Datagetir',
+            url: '/UserContact/Datagetir',
             data: {},
             success: function (result) {
                 console.log(result);
-                CreateUserDataTable(result);
+                CreateUserContactDataTable(result);
             }
         });
     }
-    function CreateUserDataTable(list) {
-        var table = $('#userList').DataTable();
+    function CreateUserContactDataTable(list) {
+        var table = $('#userContactList').DataTable();
         table.destroy();
-        table = $('#userList').DataTable({
+        table = $('#userContactList').DataTable({
             dom: 'Bfrtip',
             "data": list,
             "columns": [
                
-                { "data": "name" },
-                { "data": "surname" },
-                { "data": "company" },
+                { "data": "nameSurname" },
+                { "data": "email" },
+                { "data": "phone" },
+                { "data": "location" },
+                { "data": "information" },
               
                 {
                     "style": 'min-width: 20px;',
                     "render": function (data, type, row) {
-                        var update = '<a type="button" class="btn btn-sm btn-primary" href="/User/Edit/'+row.id+'">Güncelle</a>';
+                        var update = '<a type="button" class="btn btn-sm btn-primary" href="/UserContact/Edit/'+row.id+'">Güncelle</a>';
                         var dlte = '  <a type="button" class="btn btn-sm btn-danger" style="color:white;" onclick="sil('+row.id+');">Sil</a>';
                         return update + ' ' + dlte;
                     }
@@ -116,13 +117,8 @@
             "scrollY": 400,
             "scrollX": true,
             "bLengthChange": false,
-           
             dom: '<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom" lp>',
         });
 
     }
-    
-
-   
-
 </script>

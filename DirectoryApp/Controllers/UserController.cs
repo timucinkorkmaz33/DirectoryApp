@@ -10,6 +10,8 @@ namespace DirectoryApp.Controllers
     public class UserController : Controller
     {
         UserManagement userMan = new UserManagement(new EFUserRepository());
+        ContactInformationManagement contactMan = new ContactInformationManagement(new EFContactRepository());
+
         public IActionResult Index()
         {
 
@@ -17,7 +19,7 @@ namespace DirectoryApp.Controllers
         }
         public JsonResult DataGetir()
         {
-            var list = userMan.GetAllUsers().Where(u=>u.IsActive==true);
+            var list = userMan.GetAllUsers();
             return Json(list);
         }
 
@@ -30,8 +32,17 @@ namespace DirectoryApp.Controllers
         [HttpPost]
         public JsonResult Create(User user)
         {
-            var maxId=userMan.GetAllUsers().Max(u=>u.Id);
-            user.Id = maxId+1;
+            var Users=userMan.GetAllUsers();
+            if (Users.Count() == 0)
+            {
+                user.Id = 1;
+            }
+            else
+            {
+                
+                user.Id = Users.Max(u=>u.Id) + 1;
+
+            }
             userMan.AddUser(user);
             return Json(1);
         }
@@ -65,6 +76,14 @@ namespace DirectoryApp.Controllers
             if (user != null)
             {
               userMan.DeleteUser(user);
+                var thisUserContact = contactMan.GetAllContact().Where(u => u.UserId == id);
+                if (thisUserContact.Count() > 0)
+                {
+                    foreach (var item in thisUserContact)
+                    {
+                        contactMan.DeleteContact(item);
+                    }
+                }
             }
          
             return RedirectToAction(nameof(Index));
