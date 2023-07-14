@@ -13,6 +13,7 @@
             <div class="card-body">
                 <h5 class="card-title">Kullanıcı İletişim Listesi</h5>
                 <a type="button" class="btn btn-sm btn-success" href="@Url.Action("create","usercontact")">Yeni Kullanıcı İletişim Bilgisi Ekle</a>
+                <a type="button" class="btn btn-sm btn-success" onclick="startReportQueue()">Yeni Rapor Oluştur</a>
               
                
                 <table class="datatables-demo table table-striped table-bordered " id="userContactList">
@@ -79,6 +80,18 @@
 
         }
     }
+
+    function startReportQueue(){
+        $.ajax({
+            url: '/createreport/SendMessage',
+            data: {},
+            success: function (result) {
+                console.log("işlem başladı");
+             // alert("işlem başladı");
+            }
+        });
+    }
+
     function FillUserContactData() {
 
         $.ajax({

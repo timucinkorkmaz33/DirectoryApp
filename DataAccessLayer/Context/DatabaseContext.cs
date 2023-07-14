@@ -19,6 +19,7 @@ namespace DataAccessLayer.Context
         }
         public DbSet<User> Users { get; set; }
         public DbSet<ContactInformation> ContactInformations { get; set; }
+        public DbSet<Reports> Reports { get; set; }
 
     }
 }
