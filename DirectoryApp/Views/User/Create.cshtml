@@ -59,7 +59,12 @@
 <script>
 
     $('#addUser').on('click', function () {
-
+     
+        if ($("#Name").val() =="" || $("#Surname").val() =="" || $("#Company").val()=="") {
+            alert("Lütfen tüm kullanıcı bilgilerini giriniz.");
+            return false;
+        }
+        
         var model = {};
         model = {
             Name: $("#Name").val(),

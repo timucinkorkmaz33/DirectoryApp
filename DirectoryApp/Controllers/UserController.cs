@@ -32,19 +32,23 @@ namespace DirectoryApp.Controllers
         [HttpPost]
         public JsonResult Create(User user)
         {
-            var Users=userMan.GetAllUsers();
-            if (Users.Count() == 0)
+            if (user.Name != "" && user.Surname != "" && user.Company != "")
             {
-                user.Id = 1;
-            }
-            else
-            {
-                
-                user.Id = Users.Max(u=>u.Id) + 1;
+                var Users = userMan.GetAllUsers();
+                if (Users.Count() == 0)
+                {
+                    user.Id = 1;
+                }
+                else
+                {
 
+                    user.Id = Users.Max(u => u.Id) + 1;
+
+                }
+                userMan.AddUser(user);
+                return Json(1);
             }
-            userMan.AddUser(user);
-            return Json(1);
+            return Json(0);
         }
 
         public IActionResult Edit(int id)
@@ -61,9 +65,15 @@ namespace DirectoryApp.Controllers
         [HttpPost]
         public JsonResult Edit(User user)
         {
-          
-            userMan.UpdateUser(user);
-            return Json(1);
+            if (user.Name != "" && user.Surname != "" && user.Company != "")
+            {
+                userMan.UpdateUser(user);
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
         }
 
 

@@ -65,21 +65,30 @@ namespace DirectoryApp.Controllers
 
         public IActionResult Edit(int id)
         {
-            ViewBag.UserList = userMan.GetAllUsers();
-            var contact = contactMan.GetContactById(id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-            return View(contact);
+           
+                ViewBag.UserList = userMan.GetAllUsers();
+                var contact = contactMan.GetContactById(id);
+                if (contact == null)
+                {
+                    return NotFound();
+                }
+                return View(contact);
+            
         }
 
         [HttpPost]
         public JsonResult Edit(int id, ContactInformation contact)
         {
+            if (id==contact.Id)
+            {
 
-            contactMan.UpdateContact(contact);
-            return Json(1);
+                contactMan.UpdateContact(contact);
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
         }
 
 

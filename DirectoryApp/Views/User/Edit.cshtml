@@ -58,6 +58,12 @@
 <script>
 
     $('#editUser').on('click', function () {
+
+        if ($("#Name").val() == "" || $("#Surname").val() == "" || $("#Company").val() == "") {
+            alert("Lütfen tüm kullanıcı bilgilerini giriniz.");
+            return false;
+        }
+
         var Id=$("#Id").val();
         var model = {};
         model = {
