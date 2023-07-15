@@ -32,7 +32,7 @@ namespace DirectoryApp.Controllers
             }
             return Json(rpList);
         }
-        public void readQueue()
+        public async void readQueue()
         {
             var factory = new ConnectionFactory();
             factory.Uri = new System.Uri("amqps://xjbohwos:aOFgpAaIUa0TdPZzmegB66KwlmbeKLHL@hawk.rmq.cloudamqp.com/xjbohwos");
