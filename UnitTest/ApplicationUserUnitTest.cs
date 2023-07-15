@@ -24,6 +24,8 @@ namespace UnitTest
                 Company = "Test",
                 Surname = "Test",
                 //alanlardan biri boş gönderilirse fail sonuc alınır
+                //Bazı kontroller view sayfasında yapılmıştır. Bunlar unitTest örnekleri olması için yazılmıştır.
+
             };
             var result = userCont.Create(user);
             if (result.Value.ToString() == "1")
