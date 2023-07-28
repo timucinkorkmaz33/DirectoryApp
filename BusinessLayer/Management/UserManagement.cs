@@ -11,33 +11,38 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Management
 {
-    public class ReportManagement : IReportService
+    public class UserManagement : IUserService
     {
-        IReportDal _reportDal;
+        IUserDal _userDal;
 
-        public ReportManagement(IReportDal reportDal)
+        public UserManagement(IUserDal userDal)
         {
-            _reportDal = reportDal;
+            _userDal = userDal;
         }
 
-        public void AddReport(Reports rp)
+        public void AddUser(User user)
         {
-            _reportDal.Add(rp);
+            _userDal.Add(user);
         }
 
-        public List<Reports> GetAllReports()
+        public void DeleteUser(User user)
         {
-            return _reportDal.GetList();
+            _userDal.Delete(user);
         }
 
-        public Reports GetReportById(int id)
+        public List<User> GetAllUsers()
         {
-            return _reportDal.GetById(id);
+            return _userDal.GetList();
         }
 
-        public void UpdateReport(Reports rp)
+        public User GetUserById(int id)
         {
-            _reportDal.Update(rp);
+            return _userDal.GetById(id);
+        }
+
+        public void UpdateUser(User user)
+        {
+            _userDal.Update(user);
         }
     }
 }

@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Abstract
 {
-    public interface IReportService
+    public interface IUserService
     {
-        void AddReport(Reports rp);
-        void UpdateReport(Reports rp);
-        List<Reports> GetAllReports();
-        Reports GetReportById(int id);
+        void AddUser(User user);
+        void UpdateUser(User user);
+        void DeleteUser(User user);
+        List<User> GetAllUsers();
+        User GetUserById(int id);
     }
 }
